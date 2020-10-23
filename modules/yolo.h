@@ -176,7 +176,7 @@ protected:
         {
             return;
         }
-        convertBBoxImgRes(scalingFactor, m_InputW,m_InputH,image_w,image_h, bbi.box);
+		convertBBoxImgRes(scalingFactor, xOffset, yOffset, m_InputW, m_InputH, image_w, image_h, bbi.box);
         bbi.label = maxIndex;
         bbi.prob = maxProb;
         bbi.classId = getClassId(maxIndex);
@@ -206,7 +206,7 @@ protected:
 	}
 	inline void add_bbox_proposal(const float bx, const float by, const float bw, const float bh,
 		const uint32_t stride_h_, const uint32_t stride_w_, const int maxIndex, const float maxProb,
-		const uint32_t 	image_w, const uint32_t image_h,
+		const uint32_t 	image_w, const uint32_t image_h, const float scalingFactor, const uint32_t xOffset, const uint32_t yOffset,
 		std::vector<BBoxInfo>& binfo)
 	{
 		BBoxInfo bbi;
@@ -215,7 +215,7 @@ protected:
 		{
 			return;
 		}
-		convertBBoxImgRes(0, m_InputW, m_InputH, image_w, image_h, bbi.box);
+		convertBBoxImgRes(scalingFactor, xOffset, yOffset, m_InputW, m_InputH, image_w, image_h, bbi.box);
 		bbi.label = maxIndex;
 		bbi.prob = maxProb;
 		bbi.classId = getClassId(maxIndex);

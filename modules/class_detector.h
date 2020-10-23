@@ -27,20 +27,20 @@ enum ModelType
 
 enum Precision
 {
-	INT8 = 0,
+	INT_8 = 0,
 	FP16,
 	FP32
 };
 
 struct Config
 {
-	std::string file_model_cfg					= "configs/yolov3.cfg";
+	std::string file_model_cfg					= "configs/yolov5.cfg";
 
-	std::string file_model_weights				= "configs/yolov3.weights";
+	std::string file_model_weights				= "configs/x_best.weights";
 
-	float detect_thresh							= 0.9;
+	float detect_thresh							= 0.25;
 
-	ModelType	net_type						= YOLOV3;
+	ModelType	net_type						= YOLOV5;
 
 	Precision	inference_precison				= FP32;
 	

@@ -24,4 +24,7 @@ api/
 *.onnx
 .ipynb_checkpoints
 configs/yolov5x.cfg
+<<<<<<< HEAD
 *.bmp
+=======
+>>>>>>> d63461797fcbccbb9fbddee0c3d6237fae8e4b7c

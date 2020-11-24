@@ -6,6 +6,8 @@
 //#include <memory>
 //#include <thread>
 
+#define INPUT_DIR "../test"
+#define OUTPUT_DIR "../result"
 
 int main()
 {

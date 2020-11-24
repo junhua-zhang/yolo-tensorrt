@@ -1,60 +1,71 @@
-#include "class_timer.hpp"
-#include "class_detector.h"
+//#include "class_timer.hpp"
+//#include "class_detector.h"
+//#include "dirent.h"
+#include "detector.h"
 
-#include <memory>
-#include <thread>
+//#include <memory>
+//#include <thread>
 
 
 int main()
 {
-	Config config_v3;
-	config_v3.net_type = YOLOV3;
-	config_v3.file_model_cfg = "../configs/yolov3.cfg";
-	config_v3.file_model_weights = "../configs/yolov3.weights";
-	config_v3.calibration_image_list_file_txt = "../configs/calibration_images.txt";
-	config_v3.inference_precison = FP32;
+	init("../configs/yolov5x.cfg", "../configs/x_best.weights");
+	//detect("../test/1.jpg");
+}
 
-	Config config_v3_tiny;
-	config_v3_tiny.net_type = YOLOV3_TINY;
-	config_v3_tiny.detect_thresh = 0.7;
-	config_v3_tiny.file_model_cfg = "../configs/yolov3-tiny.cfg";
-	config_v3_tiny.file_model_weights = "../configs/yolov3-tiny.weights";
-	config_v3_tiny.calibration_image_list_file_txt = "../configs/calibration_images.txt";
-	config_v3_tiny.inference_precison = FP32;
 
-	Config config_v4;
-	config_v4.net_type = YOLOV4;
-	config_v4.file_model_cfg = "../configs/yolov4.cfg";
-	config_v4.file_model_weights = "../configs/yolov4.weights";
-	config_v4.inference_precison = FP32;
+/*
+#define INPUT_DIR "../test"
+#define OUTPUT_DIR "../result"
 
-	Config config_v4_tiny;
-	config_v4_tiny.net_type = YOLOV4_TINY;
-	config_v4_tiny.detect_thresh = 0.5;
-	config_v4_tiny.file_model_cfg = "../configs/yolov4-tiny.cfg";
-	config_v4_tiny.file_model_weights = "../configs/yolov4-tiny.weights";
-	config_v4_tiny.calibration_image_list_file_txt = "../configs/calibration_images.txt";
-	config_v4_tiny.inference_precison = FP32;
+int read_files_in_dir(const char *p_dir_name, std::vector<std::string> &file_names) {
+    DIR *p_dir = opendir(p_dir_name);
+    if (p_dir == nullptr) {
+        return -1;
+    }
 
+    struct dirent* p_file = nullptr;
+    while ((p_file = readdir(p_dir)) != nullptr) {
+        if (strcmp(p_file->d_name, ".") != 0 &&
+            strcmp(p_file->d_name, "..") != 0) {
+            //std::string cur_file_name(p_dir_name);
+            //cur_file_name += "/";
+            //cur_file_name += p_file->d_name;
+            std::string cur_file_name(p_file->d_name);
+            file_names.push_back(cur_file_name);
+        }
+    }
+
+    closedir(p_dir);
+    return 0;
+}
+
+int main()
+{
 	Config config_v5;
 	config_v5.net_type = YOLOV5;
-	config_v5.detect_thresh = 0.5;
-	config_v5.file_model_cfg = "../configs/yolov5-3.0/yolov5s.cfg";
+	config_v5.detect_thresh = 0.25;
+	config_v5.file_model_cfg = "../configs/yolov5x.cfg";
 	config_v5.file_model_weights = "../configs/yolov5-3.0/yolov5s.weights";
 	config_v5.inference_precison = FP32;
 
 	std::unique_ptr<Detector> detector(new Detector());
-	detector->init(config_v4);
-	cv::Mat image0 = cv::imread("../configs/dog.jpg", cv::IMREAD_UNCHANGED);
-	cv::Mat image1 = cv::imread("../configs/person.jpg", cv::IMREAD_UNCHANGED);
+	detector->init(config_v5);
+	
+	std::vector<std::string> file_names;
+	if (read_files_in_dir(INPUT_DIR, file_names) < 0) {
+		std::cout << "read files in dir failed." << std::endl;
+		return -1;
+	}
+	
 	std::vector<BatchResult> batch_res;
 	Timer timer;
-	for (;;)
+	for (int f = 0; f < (int)file_names.size(); f++)
 	{
 		//prepare batch data
 		std::vector<cv::Mat> batch_img;
+		cv::Mat image0 = cv::imread(std::string(INPUT_DIR + file_names[f]));
 		cv::Mat temp0 = image0.clone();
-		cv::Mat temp1 = image1.clone();
 		batch_img.push_back(temp0);
 //		batch_img.push_back(temp1);
 
@@ -74,8 +85,8 @@ int main()
 				stream << std::fixed << std::setprecision(2) << "id:" << r.id << "  score:" << r.prob;
 				cv::putText(batch_img[i], stream.str(), cv::Point(r.rect.x, r.rect.y - 5), 0, 0.5, cv::Scalar(0, 0, 255), 2);
 			}
-			cv::imshow("image"+std::to_string(i), batch_img[i]);
+			cv::imwrite(OUTPUT_DIR + file_names[f], batch_img[i]);
 		}
-		cv::waitKey(10);
 	}
 }
+*/

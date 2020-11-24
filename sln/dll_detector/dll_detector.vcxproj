@@ -111,10 +111,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\extra;C:\Software\opencv\build\include;C:\Software\TensorRT-7.1.3.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Software\opencv\build\x64\vc14\lib;C:\Software\TensorRT-7.1.3.4\lib;C:\Software\opencv\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
@@ -122,12 +124,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\extra\class_timer.hpp" />
-    <ClInclude Include="..\..\modules\class_detector.h" />
     <ClInclude Include="..\..\modules\class_yolo_detector.hpp" />
+    <ClInclude Include="..\..\modules\detector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\modules\calibrator.cpp" />
     <ClCompile Include="..\..\modules\class_detector.cpp" />
+    <ClCompile Include="..\..\modules\detector.cpp" />
     <ClCompile Include="..\..\modules\ds_image.cpp" />
     <ClCompile Include="..\..\modules\plugin_factory.cpp" />
     <ClCompile Include="..\..\modules\trt_utils.cpp" />

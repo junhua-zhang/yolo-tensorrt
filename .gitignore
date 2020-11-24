@@ -23,3 +23,5 @@ api/
 *.pt
 *.onnx
 .ipynb_checkpoints
+configs/yolov5x.cfg
+*.bmp

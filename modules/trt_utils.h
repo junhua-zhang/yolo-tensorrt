@@ -140,8 +140,8 @@ bool fileExists(const std::string fileName, bool verbose = true);
 BBox convertBBoxNetRes(const float& bx, const float& by, const float& bw, const float& bh,
                        const uint32_t& stride, const uint32_t& netW, const uint32_t& netH);
 void convertBBoxImgRes(const float scalingFactor,
-	//const float& xOffset,
-	//	const float& yOffset,
+	const float& xOffset,
+	const float& yOffset,
 	const uint32_t &input_w_,
 	const uint32_t &input_h_,
 	const uint32_t &image_w_,

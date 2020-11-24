@@ -76,7 +76,7 @@ make
 ./yolo-trt
 ```
 ## API
-
+C++
 ```c++
 struct Config
 {
@@ -112,6 +112,22 @@ private:
 	class Impl;
 	Impl *_impl;
 };
+```
+C# using C++ dll
+```C#
+private const string YoloLibraryName = "detector.dll";
+
+[DllImport(YoloLibraryName, EntryPoint = "init")]
+private static extern int InitializeYolo(string configurationFilename, string weightsFilename);
+
+[DllImport(YoloLibraryName, EntryPoint = "detect_image")]
+private static extern int DetectImage(string filename, ref BboxContainer container);
+
+[DllImport(YoloLibraryName, EntryPoint = "detect_mat")]
+private static extern int DetectImage(IntPtr pArray, int nSize, ref BboxContainer container);
+
+[DllImport(YoloLibraryName, EntryPoint = "dispose")]
+private static extern int DisposeYolo();
 ```
 
 ## REFERENCE

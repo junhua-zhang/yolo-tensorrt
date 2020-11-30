@@ -825,10 +825,23 @@ nvinfer1::ILayer * layer_act(nvinfer1::ITensor* input_,
 	}
 	else if (s_act_ == "hardswish")
 	{
+		/*
 		nvinfer1::IPluginV2 *hardswish_plugin = new nvinfer1::Hardswish();
 		auto act = network_->addPluginV2(&input_, 1, *hardswish_plugin);
 		assert(act != nullptr);
 		return act;
+		*/
+
+		// hard_swish = x * hard_sigmoid
+		
+		auto act = network_->addActivation(*input_, ActivationType::kHARD_SIGMOID);
+		assert(act);
+		act->setAlpha(1.0 / 6.0);
+		act->setBeta(0.5);
+		auto ew = network_->addElementWise(*input_, *act->getOutput(0), ElementWiseOperation::kPROD);
+		assert(ew);
+		return ew;
+		
 	}
 	return nullptr;
 }
@@ -927,7 +940,7 @@ nvinfer1::ILayer * layer_bottleneck_csp(std::vector<nvinfer1::Weights> &trtWeigh
 	auto bn = layer_bn(trtWeights_, s_model_name_, map_wts_, cat->getOutput(0), 2 * c_, network_);
 	auto act = layer_act(bn->getOutput(0), network_, "leaky");
 	//cv4
-	auto cv4 = layer_conv_bn_act(trtWeights_, s_model_name_ + ".cv4", map_wts_, act->getOutput(0), network_, c2_, 1, 1,1, true, true, "leaky");
+	auto cv4 = layer_conv_bn_act(trtWeights_, s_model_name_ + ".cv4", map_wts_, act->getOutput(0), network_, c2_, 1);
 	return cv4;
 }
 
